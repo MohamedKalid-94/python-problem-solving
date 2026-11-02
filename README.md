@@ -31,6 +31,12 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## See it in action
+
+```bash
+python demo_phase_0.py
+```
+
 ## Use a solution
 
 ```python
