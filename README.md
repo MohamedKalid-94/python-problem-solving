@@ -1,4 +1,4 @@
-![Build](https://https://github.com/MohamedKalid-94/python-problem-solving/actions/workflows/python-tests.yml/badge.svg)
+![Build](https://github.com/MohamedKalid-94/python-problem-solving/actions/workflows/python-ci.yml/badge.svg)
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 
