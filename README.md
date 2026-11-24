@@ -1,9 +1,6 @@
-![Build](https://github.com/MohamedKalid-94/python-problem-solving/actions/workflows/python-ci.yml/badge.svg)
-
+![CI](https://github.com/MohamedKalid-94/python-problem-solving/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
-
 ![License](https://img.shields.io/badge/License-MIT-green)
-
 ![Style](https://img.shields.io/badge/Code%20Style-Black-black)
 
 
