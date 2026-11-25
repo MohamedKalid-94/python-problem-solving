@@ -1,5 +1,20 @@
+# =====================================
+# Python Problem Solving Repository
+# Phase 1 - Phase 8
+# =====================================
+
+# No external dependencies required.
+# Uses Python Standard Library only.
+
+
+# Development & Testing Tools
+
 pytest>=8.0.0
 pytest-cov>=5.0.0
+
+
+# Code Quality Tools
+
 black>=24.0.0
 flake8>=7.0.0
-mypy>=1.10.0
+isort>=5.13.0
