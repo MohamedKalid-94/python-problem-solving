@@ -1,43 +1,57 @@
-# Phase 13 - Writing Clean Python - Type Hints
+"""
+Phase 13 - Writing Clean Python
+04 Type Hints
+Hints document what a function expects and returns.
+Python does NOT enforce them. Tools like mypy and pyright check them.
+(This file needs Python 3.10 or newer for the "int | None" syntax.)
+"""
 
-def separator(title): print("\n"+"="*50+"\n"+title+"\n"+"="*50)
+from helpers import separator
 
 
-def calculate_sum(a:int,b:int)->int:
-    return a+b
+# ---------- BAD ----------
+def bad_add(a, b):
+    return a + b                 # numbers? strings? lists? nobody knows
 
 
-def get_user_name()->str:
+# ---------- CLEAN ----------
+def add_numbers(a: int, b: int) -> int:
+    return a + b
+
+
+def get_user_name() -> str:
     return "Kalid"
 
 
-def get_scores()->list[int]:
-    return [90,80,70]
+def get_scores() -> list[int]:
+    return [90, 80, 70]
+
+
+def average(scores: list[int]) -> float:
+    return sum(scores) / len(scores)
+
+
+def find_age(ages: dict[str, int], name: str) -> int | None:
+    """Return the age, or None if the name is not in the dictionary."""
+    return ages.get(name)
 
 
 def main():
-    separator("Type Hints")
+    separator("BAD vs CLEAN")
+    print("BAD  :", bad_add(10, 20))
+    print("CLEAN:", add_numbers(10, 20))
 
-    print(calculate_sum(10,20))
-    print(get_user_name())
-    print(get_scores())
+    separator("Hints are information, not rules")
+    wrong = add_numbers("a", "b")        # it runs! mypy would warn here
+    print("add_numbers('a', 'b') ->", wrong)
+    print("The hints are stored here:", add_numbers.__annotations__)
 
-    print("""
-Type hints improve:
-
-- Code readability
-- IDE suggestions
-- Error detection
-- Large project maintenance
-
-Examples:
-
-str
-int
-float
-list[str]
-dict[str,int]
-""")
+    separator("More type hints")
+    print(get_user_name(), get_scores(), average(get_scores()))
+    ages = {"Kalid": 28, "Asha": 25}
+    print("find_age('Kalid'):", find_age(ages, "Kalid"))
+    print("find_age('Zed')  :", find_age(ages, "Zed"))
 
 
-if __name__=="__main__": main()
+if __name__ == "__main__":
+    main()

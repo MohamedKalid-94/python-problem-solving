@@ -1,44 +1,69 @@
-# Phase 13 - Writing Clean Python - Logging
+"""
+Phase 13 - Writing Clean Python
+05 Logging
+Use logging instead of print() for messages about what the program is doing.
+"""
 
 import logging
+import sys
 
-def separator(title): print("\n"+"="*50+"\n"+title+"\n"+"="*50)
+from helpers import separator
+
+logger = logging.getLogger(__name__)      # one logger per file
 
 
-logging.basicConfig(level=logging.INFO)
+# ---------- BAD ----------
+def bad_process(data):
+    print("processing")              # no level, cannot be switched off
+    try:
+        return 10 / data
+    except Exception as error:       # too broad, and the traceback is lost
+        print(error)
 
 
-def process_data():
-    logging.info("Processing started")
-    result="Success"
-    logging.info("Processing completed")
+# ---------- CLEAN ----------
+def process_data(data):
+    logger.info("Processing started")
+    logger.debug("Input value is %s", data)    # %s: built only if DEBUG is on
+    try:
+        result = 10 / data
+    except ZeroDivisionError:
+        logger.exception("Division failed")    # message AND the traceback
+        return None
+    logger.info("Processing completed")
     return result
 
 
 def main():
-    separator("Logging")
+    # Configure logging once, in main(), not when the file is imported
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(levelname)s | %(name)s | %(message)s",
+        stream=sys.stdout,
+    )
 
-    result=process_data()
+    separator("BAD: print and a broad except")
+    print("Result:", bad_process(0))
 
-    print(result)
+    separator("CLEAN: logging with levels")
+    print("Result:", process_data(5))
 
-    try:
-        value=10/0
-    except Exception as error:
-        logging.error(error)
+    separator("CLEAN: the error is logged with a traceback")
+    print("Result:", process_data(0))
 
-    print("""
-Logging Levels:
+    separator("All five levels")
+    logger.debug("DEBUG: details for developers")
+    logger.info("INFO: normal progress")
+    logger.warning("WARNING: something unexpected, but it still works")
+    logger.error("ERROR: something failed")
+    logger.critical("CRITICAL: the program may not continue")
 
-DEBUG
-INFO
-WARNING
-ERROR
-CRITICAL
-
-Used in production systems
-for monitoring and debugging.
-""")
+    separator("Changing the level hides the small messages")
+    logging.getLogger().setLevel(logging.WARNING)
+    logger.debug("You will NOT see this")
+    logger.info("You will NOT see this either")
+    logger.warning("You WILL see this warning")
 
 
-if __name__=="__main__": main()
+if __name__ == "__main__":
+    main()

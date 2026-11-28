@@ -1,429 +1,172 @@
-# Phase 13 — Writing Clean Python Notes
+# Notes - Writing Clean Python
 
-## Overview
+## 1. Naming (PEP 8)
 
-Clean Python means writing code that is:
+| What | Style | Example |
+|---|---|---|
+| Variable, function, method | `snake_case` | `total_price`, `calculate_total()` |
+| Class | `PascalCase` | `BankAccount` |
+| Constant | `UPPER_CASE` | `MAX_RETRY_COUNT` |
+| Module / file | short `lowercase` | `helpers.py` |
+| Internal use | `_single_underscore` | `self._balance` |
+| Name mangling | `__double_underscore` | `self.__pin` becomes `_BankAccount__pin` |
 
-- Readable
-- Maintainable
-- Testable
-- Scalable
-- Easy for teams to understand
-
-Professional developers focus not only on making code work, but also on making code easy to improve.
-
----
-
-# 1. Naming Conventions
-
-Good naming improves code readability.
-
-## Variables
-
-Use:
-
-
-snake_case
-
-Example:
+Good names:
+- Say **what it is**, not how it is stored: `user_names`, not `list1`.
+- Booleans read like questions: `is_active`, `has_discount`.
+- Functions are verbs: `calculate_total`, `load_orders`.
+- No single letters except short loops (`i`, `j`) or math.
+- Never reuse a built-in name (`list`, `max`, `sum`, `id`, `type`, `input`). It hides the built-in and breaks later code.
 
 ```python
-user_name = "Kalid"
-total_amount = 5000
-
-Avoid:
-x = 5000
-
-
-because the purpose is unclear.
-Functions
-Functions should describe actions.
-
-Use:
-calculate_total_price()load_customer_data()generate_response()
-
-
-Avoid:
-calc()process()do_task()
-
-
-Classes
-Use:
-PascalCase
-
-Example:
-class UserProfile:    pass
-
-
-Examples:
-CustomerAccount
-DocumentLoader
-RAGPipeline
-
-Constants
-Use:
-UPPER_CASE
-
-Example:
-MAX_RETRY_COUNT = 3API_TIMEOUT = 30
-
-
-Private Variables
-Use:
-_single_underscore
-
-Example:
-_internal_cache = {}
-
-
-Meaning:
-
-Used internally inside the module/class.
-2. PEP 8 Style Guide
-PEP 8 is Python's official coding style guide.
-
-It improves:
-- Code consistency
-- Readability
-- Team collaboration
-Indentation
-Use 4 spaces.
-
-Correct:
-if user_exists:    print("Welcome")
-
-
-Line Length
-Keep code readable.
-
-Avoid very long lines.
-
-Break complex statements into multiple lines.
-Imports
-Organize imports:
-1. Standard libraries
-2. Third-party libraries
-3. Local modules
-Example:
-import osimport jsonimport pandasfrom utils import helper
-
-
-Blank Lines
-Use blank lines between:
-- Functions
-- Classes
-- Logical sections
-3. Docstrings
-Docstrings explain what code does.
-
-Example:
-def calculate_sum(a,b):    """    Calculate sum of two numbers.    """
-
-
-Docstring Contains
-- Function purpose
-- Parameters
-- Return values
-- Usage information
-Benefits
-- Better documentation
-- Easier maintenance
-- IDE support
-- API documentation
-4. Type Hints
-Type hints specify expected data types.
-
-Without type hints:
-def add(a,b):    return a+b
-
-
-Problem:
-
-Developer does not know input types.
-With type hints:
-def add(a:int,b:int)->int:    return a+b
-
-
-Common Type Hints
-String:
-name: str
-
-
-Integer:
-age: int
-
-
-Float:
-price: float
-
-
-List:
-names: list[str]
-
-
-Dictionary:
-scores: dict[str,int]
-
-
-Benefits
-- Better readability
-- IDE suggestions
-- Early error detection
-- Easier team development
-5. Logging
-Logging is used for production monitoring.
-
-Avoid:
-print("Error")
-
-
-Production applications use:
-logging.error("Error")
-
-
-Logging Levels
-DEBUG
-INFO
-WARNING
-ERROR
-CRITICAL
-
-Examples
-INFO:
-
-Application started.
-
-WARNING:
-
-Something unusual happened.
-
-ERROR:
-
-Application failure.
-
-CRITICAL:
-
-System-level problem.
-AI Engineering Logging Example
-RAG Pipeline:
-User Query Received
-
-↓
-
-Documents Retrieved
-
-↓
-
-LLM Response Generated
-
-↓
-
-Evaluation Completed
-
-Logs help track:
-- Query failures
-- Retrieval issues
-- LLM errors
-- Performance problems
-6. Assertions
-Assertions check assumptions.
-
-Example:
-assert age >= 0
-
-
-If the condition fails:
-AssertionError
-
-Used For
-- Finding bugs early
-- Validating developer assumptions
-- Checking internal logic
-Assertion Example
-def divide(a,b):    assert b != 0    return a/b
-
-
-Assertion vs Exception
-Assertion:
-
-Developer mistake.
-
-Example:
-assert model_loaded
-
-
-Exception:
-
-Runtime/user problem.
-
-Example:
-raise FileNotFoundError
-
-
-7. Code Organization
-Large projects should be divided into modules.
-
-Bad structure:
-project/
-
-main.py
-utils.py
-database.py
-model.py
-
-Everything becomes difficult to maintain.
-Professional Structure
-project/
-
-app/
-
-services/
-
-models/
-
-utils/
-
-tests/
-
-config/
-
-AI Project Example
-RAG System:
-rag_project/
-
-ingestion/
-
-loader.py
-splitter.py
-
-
-retrieval/
-
-vector_store.py
-retriever.py
-
-
-generation/
-
-llm.py
-
-
-evaluation/
-
-metrics.py
-
-Benefits
-- Better maintenance
-- Easy debugging
-- Reusable components
-- Team collaboration
-8. Refactoring
-Refactoring means improving code without changing functionality.
-
-Goal:
-
-Make code:
-- Cleaner
-- Faster to understand
-- Easier to maintain
-Common Refactoring Techniques
-1. Rename Variables
-Before:
-x = 100
-
-
-After:
-total_amount = 100
-
-
-2. Split Large Functions
-Before:
-100 lines function
-
-After:
-load_data()
-
-process_data()
-
-save_result()
-
-3. Remove Duplicate Code
-Bad:
-
-Same logic repeated everywhere.
-
-Better:
-
-Create reusable functions.
-4. Improve Error Handling
-Bad:
-except:    pass
-
-
-Better:
-except ValueError as error:    logging.error(error)
-
-
-Clean Python Checklist
-Naming
-✅ Meaningful names
-✅ snake_case variables
-✅ PascalCase classes
-✅ UPPER_CASE constants  
-Style
-✅ Follow PEP 8
-✅ Proper indentation
-✅ Organized imports  
-Documentation
-✅ Add docstrings
-✅ Add type hints  
-Production Quality
-✅ Use logging
-✅ Handle errors
-✅ Validate assumptions  
-Maintainability
-✅ Small functions
-✅ No duplicate code
-✅ Clear project structure  
-AI Engineer Connection
-Production AI applications require clean Python.
-
-Example:
-API
-
-↓
-
-Authentication
-
-↓
-
-Data Processing
-
-↓
-
-Retriever
-
-↓
-
-Vector Database
-
-↓
-
-LLM
-
-↓
-
-Evaluation
-
-↓
-
-Monitoring
-
-Without clean code:
-- Debugging becomes difficult
-- Scaling becomes difficult
-- Team collaboration becomes difficult
-With clean code:
-- Faster development
-- Better reliability
-- Easier deployment
+max = 10
+max([1, 5, 3])      # TypeError: 'int' object is not callable
+```
+
+- Put constants at the top of the module, not inside a function.
+
+## 2. PEP 8 Style
+
+- 4 spaces for indentation (never tabs mixed with spaces).
+- Lines up to **79** characters (formatters like `black` and `ruff` use 88 by default).
+- **Two blank lines** between top-level functions and classes, **one** between methods.
+- One statement per line. No `def f(): return x` and no `a = 1; b = 2`.
+- Spaces after commas and around operators: `calculate(1000, 100)`, `a + b`.
+- Imports at the top, one per line, in three groups separated by a blank line:
+  standard library, third-party packages, your own modules.
+- Compare with `None` using `is`: `if value is None`.
+- Do not compare to `True` or `False`: use `if flag:`.
+- Empty check: `if not items:`, not `if len(items) == 0:`.
+- Never use a bare `except:`.
+- Comments explain **why**, not what. Remove commented-out code.
+
+## 3. Docstrings (PEP 257)
+
+A docstring is the first string in a module, function, class or method.
+
+```python
+def calculate_discount(price, discount_percent):
+    """Return the price after applying a percentage discount.
+
+    Args:
+        price: Original price (must be 0 or more).
+        discount_percent: Discount from 0 to 100.
+
+    Returns:
+        The final price as a float.
+
+    Raises:
+        ValueError: If price is negative or the discount is not 0-100.
+    """
+```
+
+- First line: a short summary, imperative mood ("Return...", not "Returns..."), ends with a period.
+- Describe inputs, result and errors. Do not just repeat the function name.
+- Common styles: **Google** (used here), **NumPy**, **reStructuredText** (Sphinx).
+- Read them with `help(function)` or `function.__doc__`.
+- Examples written as `>>> code` followed by the output can be checked with `doctest.testmod()`.
+
+## 4. Type Hints
+
+```python
+def find_age(ages: dict[str, int], name: str) -> int | None:
+    return ages.get(name)
+```
+
+- They document what goes in and out, and help IDEs and tools.
+- **Python does not enforce them.** `add_numbers("a", "b")` still runs. Use `mypy` or `pyright` to check them.
+- `list[int]`, `dict[str, int]` need Python 3.9+. `int | None` needs 3.10+ (older code uses `Optional[int]` from `typing`).
+- The hints are stored in `function.__annotations__`.
+
+| Hint | Meaning |
+|---|---|
+| `int`, `str`, `float`, `bool` | simple types |
+| `list[int]` | list of ints |
+| `dict[str, int]` | keys are str, values are int |
+| `tuple[int, str]` | fixed tuple |
+| `int \| None` | an int, or None |
+| `-> None` | the function returns nothing |
+
+## 5. Logging
+
+```python
+import logging
+logger = logging.getLogger(__name__)
+
+def main():
+    logging.basicConfig(level=logging.INFO,
+                        format="%(levelname)s | %(name)s | %(message)s")
+```
+
+| Level | Value | Use for |
+|---|---|---|
+| DEBUG | 10 | details while developing |
+| INFO | 20 | normal progress |
+| WARNING | 30 | something unexpected (default level) |
+| ERROR | 40 | something failed |
+| CRITICAL | 50 | the program may not continue |
+
+- `print()` has no level, no time and cannot be switched off. Logging can.
+- Configure logging **once** in the entry point (`main()`), not when a module is imported.
+- Use `logger.exception("message")` inside an `except` block. It logs the message **and the traceback**. `logging.error(error)` loses the traceback.
+- Use `logger.debug("value is %s", value)` (not an f-string) so the text is built only when the level is on.
+- Catch the **specific** error (`ZeroDivisionError`), not `Exception`.
+
+## 6. Assertions
+
+```python
+assert percentage <= 100, "bug: percentage out of range"
+```
+
+- `assert` checks something that must always be true **if your code is correct**.
+- It is **removed** when Python runs with `-O` (`__debug__` becomes `False`).
+- Never use `assert` to check user input or data from outside. Use `raise ValueError(...)`.
+- Gotcha: `assert (condition, "message")` with parentheses is always true, because a non-empty tuple is true. Write `assert condition, "message"`.
+
+| Use `raise` | Use `assert` |
+|---|---|
+| Bad input from a user, file or network | Impossible state caused by a bug in your own code |
+
+## 7. Code Organization
+
+- **One function, one job.** Load data, process it and print it in three functions.
+- Functions that calculate should `return` a value. Keep `print` in `main()`.
+- Constants at the top (`TAX_RATE`), no magic numbers in the middle of code.
+- Avoid global variables that functions change.
+- Do not repeat code (DRY). If you copy a block twice, make it a function.
+- Keep functions short enough to read without scrolling.
+- A real project has folders: `app/`, `services/`, `models/`, `utils/`, `tests/`. Each folder with an `__init__.py` is a package.
+
+## 8. Refactoring
+
+Refactoring = change the **structure** of code without changing its **behavior**.
+
+Techniques:
+- Rename (`weight` → `weight_kg`)
+- Replace magic numbers with named constants
+- **Guard clauses**: handle the bad case first with an early `return`, and remove nested `if`s
+- Extract a function from a long block
+- Replace repeated code with one function or one data table (`RATES`)
+
+Always **prove** nothing changed: run the old and the new version on the same inputs and compare (the file does this with 8 cases). Real projects use automated tests for this.
+
+## 9. Tools
+
+| Tool | Does |
+|---|---|
+| `ruff format` / `black` | formats code automatically |
+| `ruff check` / `flake8` / `pylint` | finds style problems and bugs |
+| `mypy` / `pyright` | checks type hints |
+| `pre-commit` | runs the checks before every commit |
+| `pytest` + CI | runs your tests on every push |
+
+## Quick Revision
+
+- Names: `snake_case`, `PascalCase`, `UPPER_CASE`; never reuse built-ins.
+- PEP 8: 4 spaces, 79 chars, two blank lines, `is None`, `if not items`.
+- Docstring: summary + Args + Returns + Raises.
+- Type hints: documentation, not enforcement.
+- `logger.exception` in `except`; configure in `main()`.
+- `raise` for input, `assert` for bugs.
+- Small functions, named constants, guard clauses.
+- Refactor only with a check that behavior is the same.
