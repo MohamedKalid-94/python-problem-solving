@@ -1,223 +1,108 @@
-# Phase 15 — Interview-Level Python Interview Q&A
+# Interview Questions & Answers - Interview-Level Python
 
-## 1. What is Time Complexity?
+## Beginner
 
-Time complexity measures how execution time grows as input size increases.
+### 1. How do you reverse a string in Python?
+Use slicing: `s[::-1]`. It creates a new string, because strings are immutable.
 
-Example:
+### 2. How do you check if a string is a palindrome?
+Clean it (keep letters and digits, ignore case), then compare it with its reverse. Without cleaning, `"A man, a plan..."` fails.
 
-```text
-Linear Search → O(n)
+### 3. How do you count how many times each character appears?
+Loop and use a dictionary: `result[ch] = result.get(ch, 0) + 1`. Or use `collections.Counter(s)`.
 
-Binary Search → O(log n)
-```
+### 4. How do you find the maximum of a list?
+`max(nums)`. It raises `ValueError` on an empty list, so check for that first.
 
----
+### 5. How do you remove duplicates from a list?
+`list(set(nums))` removes them but loses the order. `list(dict.fromkeys(nums))` removes them and keeps the order.
 
-## 2. What is Space Complexity?
+### 6. What is the difference between a list, a set and a dictionary?
+A list is ordered and allows duplicates. A set is unordered and unique. A dictionary maps keys to values.
 
-It measures additional memory used by an algorithm.
+### 7. What does `with open(...)` do?
+It opens the file and closes it automatically when the block ends, even if an error happens.
 
----
+## Intermediate
 
-## 3. Why is Binary Search faster than Linear Search?
+### 8. How do you check whether two strings are anagrams?
+Compare their sorted letters (O(n log n)), or compare character counts with `Counter` (O(n)). Ignore case and spaces first.
 
-Binary Search eliminates half of the search space every iteration.
+### 9. Why does `"".join(set("programming"))` give a different order each time?
+A set has no guaranteed order. Use `"".join(dict.fromkeys(s))` to keep the first-seen order.
 
-Requirement:
+### 10. How does the Two Sum hash-map solution work?
+For each number, check whether `target - number` is already in a dictionary of numbers seen so far. If yes, return both indexes. If no, store this number. It runs in O(n) time and O(n) space, compared with O(n²) for two loops.
 
-```text
-Array must be sorted.
-```
+### 11. How do you rotate a list by `k` positions?
+`k = k % len(nums)`, then `nums[-k:] + nums[:-k]`. The `%` handles `k` larger than the list. Handle the empty list separately.
 
----
+### 12. What is the difference between linear search and binary search?
+Linear search checks each item (O(n), any list). Binary search halves the range each step (O(log n)) but needs a **sorted** list.
 
-## 4. Difference between List and Set?
+### 13. How do you find the transpose of a matrix?
+`list(map(list, zip(*matrix)))`. `zip(*matrix)` groups the columns, and each column becomes a row.
 
-List:
+### 14. What are the base case and recursive case?
+The base case stops the recursion (`n == 0`). The recursive case calls the function again with a smaller input. Without a reachable base case you get `RecursionError`.
 
-- Ordered
-- Allows duplicates
+### 15. Why is bubble sort rarely used in practice?
+It is O(n²). Python's built-in `sorted()` is O(n log n). Bubble sort is for learning.
 
-Set:
+### 16. What is the difference between `sorted()` and `list.sort()`?
+`sorted()` returns a new list and works on any iterable. `.sort()` sorts the list in place and returns `None`.
 
-- Unordered
-- Unique values only
+### 17. What happens when you call `withdraw` with more money than the balance?
+The corrected `BankAccount` raises `ValueError("insufficient balance")`. Silently ignoring it would hide the bug from the caller.
 
----
+## Advanced
 
-## 5. Why use Dictionary?
+### 18. Why is the plain recursive Fibonacci so slow?
+It recomputes the same values many times, so the calls grow as O(2ⁿ). Memoization (`@lru_cache`) stores each answer, which makes it O(n).
 
-Dictionary provides very fast lookup.
+### 19. What is the recursion limit in Python, and what do you do about it?
+The default limit is about 1000 calls. For deep problems use a loop, a formula (`n * (n + 1) // 2`), or restructure the algorithm.
 
-Average complexity:
+### 20. What is the difference between O(n²) and O(n) for Two Sum?
+Brute force checks every pair with two loops (O(n²) time, O(1) extra space). The hash-map version trades memory for speed (O(n) time, O(n) space).
 
-```text
-O(1)
-```
+### 21. Why is the original sliding window solution O(n·k)?
+`sum(nums[i:i+k])` re-adds `k` numbers for every window. The sliding window keeps a running total: add the new number, subtract the one that left. That is O(n).
 
----
+### 22. When does the two-pointer technique work?
+When the list is **sorted** (or the problem has an order). Moving the left pointer increases the sum, and moving the right pointer decreases it.
 
-## 6. What is Recursion?
+### 23. Why must binary search use sorted data?
+Each step discards half the list by assuming everything left of `mid` is smaller and everything right is bigger. On unsorted data that assumption breaks and the answer is wrong.
 
-A function calling itself until a base condition is reached.
+### 24. Is `(low + high) // 2` safe?
+In Python yes, because integers do not overflow. In languages like Java or C, use `low + (high - low) // 2` to avoid overflow.
 
----
+### 25. What is a stable sort?
+A stable sort keeps equal items in their original order. Bubble sort and Python's `sorted()` are stable. Selection sort (with swaps) is not.
 
-## 7. What is the base case?
+### 26. Why use `dict.fromkeys` instead of a set to remove duplicates?
+Dictionaries keep insertion order (Python 3.7+). `dict.fromkeys(items)` keeps the first occurrence of each item in order, in O(n).
 
-The stopping condition in recursion.
+### 27. What is the time complexity of `x in list` vs `x in set`?
+`x in list` is O(n). `x in set` is O(1) on average, because it uses hashing.
 
-Without it:
+### 28. Why should you pass the file name as a parameter?
+A function with a hardcoded file name is hard to reuse and test, and it may overwrite a file you did not mean to. A parameter (with a default) fixes that.
 
-```text
-Infinite Recursion
+### 29. Why is building a string with `s = s + ch` in a loop not ideal for big inputs?
+Each addition may copy the whole string. For large inputs, collect characters in a list and use `"".join(parts)`.
 
-↓
+### 30. How would you explain Big-O in one sentence?
+Big-O describes how the running time or memory grows as the input size grows, ignoring constant factors.
 
-RecursionError
-```
+## Practical Tasks
 
----
-
-## 8. Difference between Linear Search and Binary Search?
-
-| Linear Search | Binary Search |
-|---------------|---------------|
-| O(n) | O(log n) |
-| Unsorted data | Sorted data |
-| Sequential search | Divide and conquer |
-
----
-
-## 9. Difference between Bubble Sort and Selection Sort?
-
-Bubble Sort swaps adjacent elements repeatedly.
-
-Selection Sort selects the minimum element and places it correctly.
-
----
-
-## 10. Why learn coding patterns?
-
-Coding patterns help solve many interview questions using reusable approaches.
-
-Examples:
-
-- Two Pointer
-- Sliding Window
-- Frequency Map
-- Binary Search
-
----
-
-## 11. Explain OOP.
-
-Object-Oriented Programming organizes code using classes and objects.
-
-Main principles:
-
-- Encapsulation
-- Inheritance
-- Polymorphism
-- Abstraction
-
----
-
-## 12. What is the Two Pointer pattern?
-
-Two indices move through the data to reduce unnecessary comparisons.
-
-Used in:
-
-- Pair Sum
-- Sorted arrays
-- Palindrome checking
-
----
-
-## 13. What is the Sliding Window pattern?
-
-It processes a fixed or variable-size window efficiently.
-
-Used for:
-
-- Maximum sum subarray
-- Longest substring
-- Window averages
-
----
-
-## 14. Why are coding patterns important?
-
-Patterns reduce problem-solving time and improve interview performance.
-
----
-
-## 15. How do you approach a coding interview?
-
-```text
-Understand Problem
-
-↓
-
-Ask Questions
-
-↓
-
-Brute Force Solution
-
-↓
-
-Optimize
-
-↓
-
-Write Code
-
-↓
-
-Dry Run
-
-↓
-
-Analyze Complexity
-```
-
----
-
-## 16. Which Python topics are most frequently asked?
-
-- Strings
-- Lists
-- Dictionaries
-- Sets
-- Sorting
-- Searching
-- Recursion
-- OOP
-- File Handling
-- Coding Patterns
-
----
-
-## 17. What is the best way to prepare for coding interviews?
-
-- Practice daily
-- Solve problems
-- Learn patterns
-- Analyze complexity
-- Explain your solution aloud
-- Write clean code
-
----
-
-## 18. How many problems should I solve?
-
-Recommended target:
-
-```text
-150–300 Python interview problems
-```
-
-Focus on understanding the approach rather than memorizing solutions.
+1. Write `two_sum` in O(n) and explain why a dictionary makes it fast.
+2. Remove duplicates from a list while keeping order.
+3. Implement binary search and explain why the list must be sorted.
+4. Rotate a list by `k`, including `k` larger than the list.
+5. Write recursive factorial and explain the base case.
+6. Fix `fibonacci(40)` so it runs instantly.
+7. Convert a slow slice-sum window into a true sliding window.
+8. Add validation to a bank account class and test it with bad input.
